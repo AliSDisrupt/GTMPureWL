@@ -10,6 +10,10 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace worker\" \"npm run dev --workspace frontend\"",
     "build": "npm run build --workspace backend && npm run build --workspace worker && npm run build --workspace frontend",
+    "start": "npm run start --workspace frontend",
+    "start:frontend": "npm run start --workspace frontend",
+    "start:backend": "npm run start --workspace backend",
+    "start:worker": "npm run start --workspace worker",
     "lint": "npm run lint --workspace backend && npm run lint --workspace worker && npm run lint --workspace frontend"
   },
   "devDependencies": {
