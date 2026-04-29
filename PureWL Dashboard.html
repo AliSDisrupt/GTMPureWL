@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureWL Dashboard — Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Caveat+Brush&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: #2d2d2d;
+    --text: #1a1a1a;
+    --muted: #666;
+    --purple: #5b3fa6;
+    --purple-light: #ede9f9;
+    --blue: #2563b8;
+    --blue-light: #dbeafe;
+    --teal: #0d7a6e;
+    --teal-light: #d0f0eb;
+    --red: #c0392b;
+    --red-light: #fde8e6;
+    --yellow: #b8860b;
+    --yellow-light: #fef9e7;
+    --sketch-radius: 3px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Caveat', cursive;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ─── SIDEBAR ─────────────────────────────────── */
+  .sidebar {
+    width: 210px;
+    min-width: 210px;
+    background: #1e1340;
+    border-right: 2.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .sidebar-logo {
+    padding: 18px 20px 14px;
+    border-bottom: 2px dashed rgba(255,255,255,0.15);
+  }
+
+  .logo-badge {
+    display: inline-block;
+    background: var(--purple);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 2px solid rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+    transform: rotate(-0.5deg);
+  }
+
+  .logo-sub {
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    margin-top: 4px;
+    padding-left: 2px;
+  }
+
+  .sidebar-section-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    padding: 16px 20px 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    color: rgba(255,255,255,0.65);
+    font-size: 16px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+
+  .nav-item.active {
+    background: rgba(91,63,166,0.35);
+    color: #fff;
+    border-left-color: var(--purple);
+  }
+
+  .nav-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
+
+  .nav-item.active .nav-dot { background: var(--purple); border-color: var(--purple); opacity: 1; }
+
+  /* ─── MAIN ─────────────────────────────────────── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ─── TOPBAR ───────────────────────────────────── */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 2.5px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .topbar-title {
+    font-size: 20px;
+    font-weight: 700;
+    flex: 1;
+    color: var(--text);
+  }
+
+  .preset-btn {
+    padding: 6px 14px;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: var(--sketch-radius);
+    transform: rotate(-0.3deg);
+    transition: background 0.12s;
+  }
+
+  .preset-btn:hover { background: var(--purple-light); }
+  .preset-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+  .date-range-input {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--border);
+    padding: 5px 12px;
+    border-radius: var(--sketch-radius);
+    background: var(--surface);
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    transform: rotate(0.2deg);
+    cursor: pointer;
+  }
+
+  .date-range-input span { color: var(--muted); font-size: 13px; }
+
+  /* ─── CONTENT ──────────────────────────────────── */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: none;
+  }
+
+  .content.active { display: block; }
+
+  /* ─── SKETCH HELPERS ────────────────────────────── */
+  .sketch-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--sketch-radius);
+    padding: 16px;
+    position: relative;
+  }
+
+  .sketch-card::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .section-heading {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .platform-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 2px solid;
+    transform: rotate(-0.5deg);
+  }
+
+  /* ─── KPI GRID ──────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .kpi-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--sketch-radius);
+    padding: 14px 16px;
+    transform: rotate(var(--r, 0deg));
+  }
+
+  .kpi-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .kpi-delta {
+    display: inline-block;
+    font-size: 12px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1.5px solid;
+    margin-top: 4px;
+  }
+
+  .delta-up { color: var(--teal); border-color: var(--teal); background: var(--teal-light); }
+  .delta-down { color: var(--red); border-color: var(--red); background: var(--red-light); }
+
+  /* ─── CHARTS ────────────────────────────────────── */
+  .charts-row {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .chart-placeholder {
+    background: var(--bg);
+    border: 2px dashed var(--border);
+    border-radius: var(--sketch-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chart-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  /* Sketchy bar chart */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 0 8px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  .bar {
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 2px 2px 0 0;
+    background: var(--purple-light);
+    position: relative;
+  }
+
+  .bar.accent { background: var(--blue-light); }
+  .bar.teal { background: var(--teal-light); }
+
+  .bar-tick {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Sketchy line chart */
+  .line-chart-svg { width: 100%; height: 100%; }
+
+  /* ─── TABLE ─────────────────────────────────────── */
+  .sketch-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .sketch-table th {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .sketch-table td {
+    border: 1.5px solid #ccc;
+    padding: 8px 12px;
+    background: var(--surface);
+  }
+
+  .sketch-table tr:nth-child(even) td { background: #fafafa; }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1.5px solid;
+  }
+
+  .pill-green { color: var(--teal); border-color: var(--teal); background: var(--teal-light); }
+  .pill-gray { color: var(--muted); border-color: #ccc; background: var(--bg); }
+  .pill-blue { color: var(--blue); border-color: var(--blue); background: var(--blue-light); }
+  .pill-purple { color: var(--purple); border-color: var(--purple); background: var(--purple-light); }
+
+  .two-col { grid-template-columns: 1fr 1fr; }
+  .three-col { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* Sparkline-ish line for KPI */
+  .mini-spark {
+    height: 30px;
+    margin-top: 6px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    margin-top: -10px;
+  }
+
+  /* Annotation arrow */
+  .annotation {
+    position: absolute;
+    font-size: 12px;
+    color: var(--purple);
+    font-style: italic;
+  }
+
+  .divider {
+    border: none;
+    border-top: 2px dashed #ccc;
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge">PureWL</div>
+    <div class="logo-sub">Windsor · Marketing Hub</div>
+  </div>
+  <div class="sidebar-section-label">Paid Ads</div>
+  <div class="nav-item active" onclick="switchTab('google')">
+    <div class="nav-dot">G</div> Google Ads
+  </div>
+  <div class="nav-item" onclick="switchTab('reddit')">
+    <div class="nav-dot">R</div> Reddit Ads
+  </div>
+  <div class="nav-item" onclick="switchTab('linkedin')">
+    <div class="nav-dot">in</div> LinkedIn Ads
+  </div>
+  <div class="sidebar-section-label">Analytics</div>
+  <div class="nav-item" onclick="switchTab('ga4')">
+    <div class="nav-dot">G4</div> GA4
+  </div>
+  <div class="sidebar-section-label">Outreach</div>
+  <div class="nav-item" onclick="switchTab('lemlist')">
+    <div class="nav-dot">L</div> Lemlist
+  </div>
+  <div class="sidebar-section-label">CRM</div>
+  <div class="nav-item" onclick="switchTab('hubspot')">
+    <div class="nav-dot">H</div> HubSpot
+  </div>
+
+  <!-- User area at bottom -->
+  <div style="margin-top:auto; border-top:1px dashed rgba(255,255,255,0.15); padding:14px 16px; display:flex; align-items:center; gap:10px;">
+    <div id="sidebar-avatar" style="width:32px;height:32px;border-radius:50%;background:var(--purple);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;">?</div>
+    <div style="overflow:hidden;">
+      <div id="sidebar-name" style="color:#fff;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading…</div>
+      <div id="sidebar-email" style="color:rgba(255,255,255,0.4);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+    </div>
+    <div onclick="logout()" title="Sign out" style="margin-left:auto;cursor:pointer;color:rgba(255,255,255,0.4);font-size:18px;flex-shrink:0;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">⏻</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">Google Ads</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-right:8px;">
+      <div id="topbar-avatar" style="width:30px;height:30px;border-radius:50%;background:#1e1340;border:2px solid #2d2d2d;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;">?</div>
+      <span id="topbar-name" style="font-size:16px;color:var(--muted);white-space:nowrap;">Loading…</span>
+    </div>
+    <button class="preset-btn" onclick="setPreset(this,'7d')">Last 7d</button>
+    <button class="preset-btn active" onclick="setPreset(this,'30d')">Last 30d</button>
+    <button class="preset-btn" onclick="setPreset(this,'90d')">Last 90d</button>
+    <button class="preset-btn" onclick="setPreset(this,'mtd')">MTD</button>
+    <div class="date-range-input">
+      📅 <span>Apr 1</span> → <span>Apr 29, 2026</span> ✏️
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       GOOGLE ADS
+  ═══════════════════════════════════════════ -->
+  <div class="content active" id="tab-google">
+    <div class="section-heading">
+      <span class="platform-badge" style="color:var(--blue);border-color:var(--blue);background:var(--blue-light)">Google Ads</span>
+      Campaign Overview
+    </div>
+    <p class="section-sub">All campaigns · Apr 1 – Apr 29, 2026</p>
+
+    <!-- Total KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--r:-0.4deg; border-top: 4px solid var(--blue);">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-value" style="color:var(--blue)">$12,480</div>
+        <div class="kpi-delta delta-down">▼ 4.2% vs prev</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg; border-top: 4px solid var(--purple);">
+        <div class="kpi-label">Impressions</div>
+        <div class="kpi-value">842K</div>
+        <div class="kpi-delta delta-up">▲ 11.3%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.2deg; border-top: 4px solid var(--teal);">
+        <div class="kpi-label">Clicks</div>
+        <div class="kpi-value">18,340</div>
+        <div class="kpi-delta delta-up">▲ 7.8%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.5deg; border-top: 4px solid var(--yellow);">
+        <div class="kpi-label">CTR</div>
+        <div class="kpi-value">2.18%</div>
+        <div class="kpi-delta delta-down">▼ 0.3%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.3deg; border-top: 4px solid var(--red);">
+        <div class="kpi-label">Avg. CPC</div>
+        <div class="kpi-value">$0.68</div>
+        <div class="kpi-delta delta-up">▲ 1.1%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.2deg; border-top: 4px solid var(--purple);">
+        <div class="kpi-label">Conversions</div>
+        <div class="kpi-value">384</div>
+        <div class="kpi-delta delta-up">▲ 22.4%</div>
+      </div>
+    </div>
+
+    <!-- Charts row -->
+    <div class="charts-row two-col" style="margin-bottom:20px;">
+      <div class="sketch-card" style="height:220px; padding-bottom:8px;">
+        <div class="chart-label">Spend + Clicks over time (line chart)</div>
+        <svg class="line-chart-svg" viewBox="0 0 400 150" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="30" x2="400" y2="30" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="75" x2="400" y2="75" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="120" x2="400" y2="120" stroke="#ddd" stroke-dasharray="4,3"/>
+          <!-- Spend line (purple) -->
+          <polyline points="20,110 60,90 100,95 140,75 180,85 220,60 260,70 300,55 340,65 380,50"
+            fill="none" stroke="#5b3fa6" stroke-width="2.5" stroke-linejoin="round"/>
+          <!-- Clicks line (blue) -->
+          <polyline points="20,130 60,120 100,115 140,100 180,105 220,90 260,95 300,80 340,85 380,70"
+            fill="none" stroke="#2563b8" stroke-width="2" stroke-linejoin="round" stroke-dasharray="5,2"/>
+          <!-- Legend -->
+          <rect x="20" y="8" width="12" height="3" fill="#5b3fa6" rx="1"/>
+          <text x="36" y="13" font-family="Caveat" font-size="11" fill="#666">Spend</text>
+          <rect x="80" y="8" width="12" height="3" fill="#2563b8" rx="1"/>
+          <text x="96" y="13" font-family="Caveat" font-size="11" fill="#666">Clicks</text>
+        </svg>
+      </div>
+      <div class="sketch-card" style="height:220px;">
+        <div class="chart-label">Impressions by Campaign (bar)</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar" style="height:65%"></div>
+            <div class="bar-tick">Brand</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar accent" style="height:45%"></div>
+            <div class="bar-tick">Search</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar teal" style="height:80%"></div>
+            <div class="bar-tick">Display</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:30%"></div>
+            <div class="bar-tick">Retarget</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar accent" style="height:55%"></div>
+            <div class="bar-tick">PMax</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaign Table -->
+    <div class="sketch-card">
+      <div class="chart-label">Campaign Breakdown</div>
+      <table class="sketch-table">
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th>Status</th>
+            <th>Impressions</th>
+            <th>Clicks</th>
+            <th>CTR</th>
+            <th>Spend (USD)</th>
+            <th>Conv.</th>
+            <th>CPC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PureVPN Brand</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>320,140</td><td>7,200</td><td>2.25%</td><td>$4,800</td><td>150</td><td>$0.67</td>
+          </tr>
+          <tr>
+            <td>VPN Search Generic</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>180,000</td><td>3,960</td><td>2.20%</td><td>$2,750</td><td>88</td><td>$0.69</td>
+          </tr>
+          <tr>
+            <td>Display Awareness</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>240,000</td><td>2,880</td><td>1.20%</td><td>$1,920</td><td>32</td><td>$0.67</td>
+          </tr>
+          <tr>
+            <td>Retargeting</td>
+            <td><span class="pill pill-gray">Paused</span></td>
+            <td>62,000</td><td>2,108</td><td>3.40%</td><td>$1,560</td><td>76</td><td>$0.74</td>
+          </tr>
+          <tr>
+            <td>Performance Max</td>
+            <td><span class="pill pill-blue">Learning</span></td>
+            <td>40,000</td><td>2,192</td><td>5.48%</td><td>$1,450</td><td>38</td><td>$0.66</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       REDDIT ADS
+  ═══════════════════════════════════════════ -->
+  <div class="content" id="tab-reddit">
+    <div class="section-heading">
+      <span class="platform-badge" style="color:var(--red);border-color:var(--red);background:var(--red-light)">Reddit Ads</span>
+      Campaign Overview
+    </div>
+    <p class="section-sub">All campaigns · Apr 1 – Apr 29, 2026</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--r:-0.4deg; border-top:4px solid var(--red);">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-value" style="color:var(--red)">$3,210</div>
+        <div class="kpi-delta delta-up">▲ 8.5%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg; border-top:4px solid var(--purple);">
+        <div class="kpi-label">Impressions</div>
+        <div class="kpi-value">512K</div>
+        <div class="kpi-delta delta-up">▲ 15.2%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.2deg; border-top:4px solid var(--teal);">
+        <div class="kpi-label">Clicks</div>
+        <div class="kpi-value">6,144</div>
+        <div class="kpi-delta delta-up">▲ 9.1%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.4deg; border-top:4px solid var(--yellow);">
+        <div class="kpi-label">CTR</div>
+        <div class="kpi-value">1.20%</div>
+        <div class="kpi-delta delta-down">▼ 0.1%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.3deg; border-top:4px solid var(--blue);">
+        <div class="kpi-label">Avg. CPM</div>
+        <div class="kpi-value">$6.27</div>
+        <div class="kpi-delta delta-up">▲ 2.0%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.2deg; border-top:4px solid var(--red);">
+        <div class="kpi-label">CPC</div>
+        <div class="kpi-value">$0.52</div>
+        <div class="kpi-delta delta-down">▼ 1.3%</div>
+      </div>
+    </div>
+
+    <div class="charts-row two-col" style="margin-bottom:20px;">
+      <div class="sketch-card" style="height:210px;">
+        <div class="chart-label">Spend over time</div>
+        <svg class="line-chart-svg" viewBox="0 0 400 150" preserveAspectRatio="none">
+          <line x1="0" y1="40" x2="400" y2="40" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#ddd" stroke-dasharray="4,3"/>
+          <polyline points="20,120 60,100 100,105 140,85 180,95 220,75 260,80 300,65 340,70 380,55"
+            fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linejoin="round"/>
+          <polyline points="20,120 60,100 100,105 140,85 180,95 220,75 260,80 300,65 340,70 380,55"
+            fill="rgba(192,57,43,0.08)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="sketch-card" style="height:210px;">
+        <div class="chart-label">Clicks by Subreddit (bar)</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar" style="height:70%;background:var(--red-light)"></div>
+            <div class="bar-tick">r/privacy</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:50%;background:var(--red-light)"></div>
+            <div class="bar-tick">r/vpn</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:85%;background:var(--red-light)"></div>
+            <div class="bar-tick">r/tech</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:40%;background:var(--red-light)"></div>
+            <div class="bar-tick">r/gaming</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sketch-card">
+      <div class="chart-label">Campaign Breakdown</div>
+      <table class="sketch-table">
+        <thead>
+          <tr>
+            <th>Campaign</th><th>Status</th><th>Impressions</th><th>Clicks</th><th>CTR</th><th>Spend</th><th>CPM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Privacy Audience</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>210,000</td><td>2,940</td><td>1.40%</td><td>$1,310</td><td>$6.24</td>
+          </tr>
+          <tr>
+            <td>VPN Interest</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>185,000</td><td>1,850</td><td>1.00%</td><td>$1,160</td><td>$6.27</td>
+          </tr>
+          <tr>
+            <td>Tech Enthusiasts</td>
+            <td><span class="pill pill-gray">Paused</span></td>
+            <td>117,000</td><td>1,354</td><td>1.16%</td><td>$740</td><td>$6.32</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       LINKEDIN ADS
+  ═══════════════════════════════════════════ -->
+  <div class="content" id="tab-linkedin">
+    <div class="section-heading">
+      <span class="platform-badge" style="color:var(--blue);border-color:var(--blue);background:var(--blue-light)">LinkedIn Ads</span>
+      Campaign + Lead Forms
+    </div>
+    <p class="section-sub">All campaigns · Apr 1 – Apr 29, 2026</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--r:-0.4deg; border-top:4px solid var(--blue);">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-value" style="color:var(--blue)">$5,840</div>
+        <div class="kpi-delta delta-up">▲ 12.0%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg;">
+        <div class="kpi-label">Impressions</div>
+        <div class="kpi-value">198K</div>
+        <div class="kpi-delta delta-up">▲ 6.3%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.2deg;">
+        <div class="kpi-label">Clicks</div>
+        <div class="kpi-value">3,960</div>
+        <div class="kpi-delta delta-up">▲ 5.5%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.4deg;">
+        <div class="kpi-label">CTR</div>
+        <div class="kpi-value">2.00%</div>
+        <div class="kpi-delta delta-down">▼ 0.2%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.3deg; border-top:4px solid var(--teal);">
+        <div class="kpi-label">Lead Form Subs</div>
+        <div class="kpi-value" style="color:var(--teal)">247</div>
+        <div class="kpi-delta delta-up">▲ 18.7%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.2deg; border-top:4px solid var(--teal);">
+        <div class="kpi-label">Cost per Lead</div>
+        <div class="kpi-value" style="color:var(--teal)">$23.64</div>
+        <div class="kpi-delta delta-down">▼ 5.2%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.1deg;">
+        <div class="kpi-label">Form Open Rate</div>
+        <div class="kpi-value">6.24%</div>
+        <div class="kpi-delta delta-up">▲ 1.1%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.4deg;">
+        <div class="kpi-label">Form Fill Rate</div>
+        <div class="kpi-value">62.4%</div>
+        <div class="kpi-delta delta-up">▲ 3.8%</div>
+      </div>
+    </div>
+
+    <!-- Lead Form Focus -->
+    <div class="charts-row two-col" style="margin-bottom:20px;">
+      <div class="sketch-card" style="height:230px;">
+        <div class="chart-label">Lead Form Submissions over time</div>
+        <svg class="line-chart-svg" viewBox="0 0 400 150" preserveAspectRatio="none">
+          <line x1="0" y1="40" x2="400" y2="40" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#ddd" stroke-dasharray="4,3"/>
+          <polyline points="20,130 60,118 100,108 140,100 180,90 220,80 260,72 300,65 340,60 380,52"
+            fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="380" cy="52" r="4" fill="var(--teal)"/>
+          <text x="340" y="42" font-family="Caveat" font-size="11" fill="var(--teal)">247 leads</text>
+        </svg>
+      </div>
+      <div class="sketch-card" style="height:230px;">
+        <div class="chart-label">Lead Forms by Campaign</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar" style="height:75%;background:var(--teal-light)"></div>
+            <div class="bar-tick">B2B Promo</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:55%;background:var(--blue-light)"></div>
+            <div class="bar-tick">Enterprise</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:40%;background:var(--teal-light)"></div>
+            <div class="bar-tick">Retarget</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:25%;background:var(--blue-light)"></div>
+            <div class="bar-tick">IT Mgrs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sketch-card">
+      <div class="chart-label">Campaign + Lead Form Breakdown</div>
+      <table class="sketch-table">
+        <thead>
+          <tr>
+            <th>Campaign</th><th>Status</th><th>Impressions</th><th>Clicks</th><th>CTR</th><th>Spend</th><th>Form Opens</th><th>Submissions</th><th>CPL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>B2B Promo Q2</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>82,000</td><td>1,640</td><td>2.00%</td><td>$2,460</td><td>245</td><td>112</td><td>$21.96</td>
+          </tr>
+          <tr>
+            <td>Enterprise VPN</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>66,000</td><td>1,320</td><td>2.00%</td><td>$1,980</td><td>188</td><td>82</td><td>$24.15</td>
+          </tr>
+          <tr>
+            <td>IT Retarget</td>
+            <td><span class="pill pill-blue">Learning</span></td>
+            <td>30,000</td><td>600</td><td>2.00%</td><td>$840</td><td>82</td><td>35</td><td>$24.00</td>
+          </tr>
+          <tr>
+            <td>IT Mgrs Audience</td>
+            <td><span class="pill pill-gray">Paused</span></td>
+            <td>20,000</td><td>400</td><td>2.00%</td><td>$560</td><td>44</td><td>18</td><td>$31.11</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       GA4
+  ═══════════════════════════════════════════ -->
+  <div class="content" id="tab-ga4">
+    <div class="section-heading">
+      <span class="platform-badge" style="color:var(--teal);border-color:var(--teal);background:var(--teal-light)">GA4</span>
+      Website Analytics
+    </div>
+    <p class="section-sub">purewl.com · Apr 1 – Apr 29, 2026</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--r:-0.4deg; border-top:4px solid var(--teal);">
+        <div class="kpi-label">Sessions</div>
+        <div class="kpi-value" style="color:var(--teal)">94,210</div>
+        <div class="kpi-delta delta-up">▲ 9.4%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg;">
+        <div class="kpi-label">Users</div>
+        <div class="kpi-value">71,340</div>
+        <div class="kpi-delta delta-up">▲ 7.2%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.2deg;">
+        <div class="kpi-label">New Users</div>
+        <div class="kpi-value">58,110</div>
+        <div class="kpi-delta delta-up">▲ 11.0%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.4deg;">
+        <div class="kpi-label">Engagement Rate</div>
+        <div class="kpi-value">54.2%</div>
+        <div class="kpi-delta delta-up">▲ 2.1%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.3deg;">
+        <div class="kpi-label">Avg. Session Duration</div>
+        <div class="kpi-value">2m 34s</div>
+        <div class="kpi-delta delta-up">▲ 0.4%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.2deg; border-top:4px solid var(--purple);">
+        <div class="kpi-label">Conversions</div>
+        <div class="kpi-value" style="color:var(--purple)">1,204</div>
+        <div class="kpi-delta delta-up">▲ 14.8%</div>
+      </div>
+    </div>
+
+    <div class="charts-row two-col" style="margin-bottom:20px;">
+      <div class="sketch-card" style="height:220px;">
+        <div class="chart-label">Sessions over time</div>
+        <svg class="line-chart-svg" viewBox="0 0 400 150" preserveAspectRatio="none">
+          <line x1="0" y1="40" x2="400" y2="40" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#ddd" stroke-dasharray="4,3"/>
+          <polyline points="20,120 60,105 100,100 140,90 180,95 220,80 260,85 300,70 340,72 380,60"
+            fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="sketch-card" style="height:220px;">
+        <div class="chart-label">Traffic Source Breakdown (donut placeholder)</div>
+        <div style="display:flex;align-items:center;justify-content:center;height:calc(100% - 30px);gap:20px;">
+          <svg viewBox="0 0 100 100" width="110" height="110">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#eee" stroke-width="18"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="var(--blue)" stroke-width="18" stroke-dasharray="75 251" stroke-dashoffset="-62" transform="rotate(-90 50 50)"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="var(--teal)" stroke-width="18" stroke-dasharray="55 251" stroke-dashoffset="-137" transform="rotate(-90 50 50)"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="var(--purple)" stroke-width="18" stroke-dasharray="50 251" stroke-dashoffset="-192" transform="rotate(-90 50 50)"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#ccc" stroke-width="18" stroke-dasharray="71 251" stroke-dashoffset="-242" transform="rotate(-90 50 50)"/>
+          </svg>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;">
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--blue);margin-right:5px;border-radius:2px;"></span>Paid (30%)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--teal);margin-right:5px;border-radius:2px;"></span>Organic (22%)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:var(--purple);margin-right:5px;border-radius:2px;"></span>Direct (20%)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:#ccc;margin-right:5px;border-radius:2px;"></span>Other (28%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Map -->
+    <div class="sketch-card" style="margin-bottom:20px;">
+      <div class="chart-label">Sessions by Location</div>
+      <div style="display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start;">
+        <!-- SVG World Map Sketch -->
+        <div style="position:relative;">
+          <svg viewBox="0 0 900 440" width="100%" style="border:1.5px dashed #ccc;border-radius:3px;background:#f9f9f9;">
+            <!-- Rough continent outlines - simplified sketch style -->
+            <!-- North America -->
+            <path d="M95,80 L75,90 L60,110 L65,130 L80,150 L100,165 L115,180 L120,200 L135,210 L145,195 L160,185 L170,160 L175,135 L165,110 L150,90 L130,75 Z" fill="#e8e0f5" stroke="#5b3fa6" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Greenland -->
+            <path d="M195,40 L210,35 L225,45 L220,65 L205,70 L192,58 Z" fill="#e8e0f5" stroke="#5b3fa6" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- South America -->
+            <path d="M155,230 L145,250 L148,275 L158,300 L165,320 L160,340 L170,355 L185,350 L195,335 L200,310 L196,285 L188,260 L175,240 Z" fill="#e8e0f5" stroke="#5b3fa6" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Europe -->
+            <path d="M380,70 L365,78 L355,90 L360,105 L375,108 L390,100 L400,85 L392,72 Z" fill="#dbeafe" stroke="#2563b8" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Africa -->
+            <path d="M370,120 L355,135 L348,160 L352,190 L360,215 L375,235 L390,240 L405,230 L415,210 L418,185 L412,158 L400,135 L385,118 Z" fill="#dbeafe" stroke="#2563b8" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Asia -->
+            <path d="M420,55 L445,48 L480,52 L520,58 L560,62 L600,68 L625,80 L630,100 L615,115 L590,120 L560,115 L530,118 L505,125 L480,118 L455,110 L435,100 L420,85 Z" fill="#d0f0eb" stroke="#0d7a6e" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- India -->
+            <path d="M510,125 L500,140 L505,165 L515,180 L525,175 L530,155 L525,135 Z" fill="#d0f0eb" stroke="#0d7a6e" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- SE Asia -->
+            <path d="M570,130 L580,145 L595,155 L605,145 L600,130 L585,122 Z" fill="#d0f0eb" stroke="#0d7a6e" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Australia -->
+            <path d="M620,260 L640,250 L670,255 L690,270 L688,295 L670,310 L648,312 L630,300 L618,280 Z" fill="#fef9e7" stroke="#b8860b" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+            <!-- Traffic dots (sized by volume) -->
+            <!-- USA - big -->
+            <circle cx="120" cy="130" r="14" fill="rgba(91,63,166,0.25)" stroke="#5b3fa6" stroke-width="1.5"/>
+            <circle cx="120" cy="130" r="5" fill="#5b3fa6"/>
+            <text x="120" y="153" font-family="Caveat" font-size="11" fill="#5b3fa6" text-anchor="middle">28.4K</text>
+
+            <!-- UK -->
+            <circle cx="358" cy="82" r="9" fill="rgba(37,99,184,0.2)" stroke="#2563b8" stroke-width="1.5"/>
+            <circle cx="358" cy="82" r="4" fill="#2563b8"/>
+            <text x="358" y="100" font-family="Caveat" font-size="10" fill="#2563b8" text-anchor="middle">12.1K</text>
+
+            <!-- Germany -->
+            <circle cx="385" cy="85" r="8" fill="rgba(37,99,184,0.2)" stroke="#2563b8" stroke-width="1.5"/>
+            <circle cx="385" cy="85" r="3" fill="#2563b8"/>
+
+            <!-- India - big -->
+            <circle cx="515" cy="145" r="12" fill="rgba(13,122,110,0.2)" stroke="#0d7a6e" stroke-width="1.5"/>
+            <circle cx="515" cy="145" r="5" fill="#0d7a6e"/>
+            <text x="515" y="165" font-family="Caveat" font-size="11" fill="#0d7a6e" text-anchor="middle">18.7K</text>
+
+            <!-- Canada -->
+            <circle cx="130" cy="95" r="7" fill="rgba(91,63,166,0.15)" stroke="#5b3fa6" stroke-width="1.5"/>
+            <circle cx="130" cy="95" r="3" fill="#5b3fa6"/>
+
+            <!-- Australia -->
+            <circle cx="655" cy="280" r="8" fill="rgba(184,134,11,0.2)" stroke="#b8860b" stroke-width="1.5"/>
+            <circle cx="655" cy="280" r="3" fill="#b8860b"/>
+            <text x="655" y="298" font-family="Caveat" font-size="10" fill="#b8860b" text-anchor="middle">5.2K</text>
+
+            <!-- Pakistan -->
+            <circle cx="488" cy="118" r="7" fill="rgba(13,122,110,0.2)" stroke="#0d7a6e" stroke-width="1.5"/>
+            <circle cx="488" cy="118" r="3" fill="#0d7a6e"/>
+
+            <!-- Brazil -->
+            <circle cx="175" cy="290" r="9" fill="rgba(37,99,184,0.2)" stroke="#2563b8" stroke-width="1.5"/>
+            <circle cx="175" cy="290" r="4" fill="#2563b8"/>
+            <text x="175" y="308" font-family="Caveat" font-size="10" fill="#2563b8" text-anchor="middle">7.8K</text>
+
+            <!-- Legend -->
+            <text x="20" y="420" font-family="Caveat" font-size="12" fill="#999">Bubble size = session volume</text>
+          </svg>
+        </div>
+
+        <!-- Top Countries Table -->
+        <div>
+          <table class="sketch-table" style="font-size:13px;">
+            <thead>
+              <tr><th>Country</th><th>Sessions</th><th>% Total</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>🇺🇸 United States</td><td>28,400</td><td>30.1%</td></tr>
+              <tr><td>🇮🇳 India</td><td>18,700</td><td>19.9%</td></tr>
+              <tr><td>🇬🇧 United Kingdom</td><td>12,100</td><td>12.8%</td></tr>
+              <tr><td>🇧🇷 Brazil</td><td>7,800</td><td>8.3%</td></tr>
+              <tr><td>🇦🇺 Australia</td><td>5,200</td><td>5.5%</td></tr>
+              <tr><td>🇨🇦 Canada</td><td>4,900</td><td>5.2%</td></tr>
+              <tr><td>🇩🇪 Germany</td><td>4,400</td><td>4.7%</td></tr>
+              <tr><td>🇵🇰 Pakistan</td><td>3,800</td><td>4.0%</td></tr>
+              <tr><td>Other</td><td>8,910</td><td>9.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Pages -->
+    <div class="sketch-card" style="margin-bottom:16px;">
+      <div class="chart-label">Top Pages by Sessions</div>
+      <table class="sketch-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Page</th><th>Sessions</th><th>Users</th><th>Avg. Time on Page</th><th>Bounce Rate</th><th>Conversions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>/home</td><td>22,400</td><td>18,200</td><td>1m 12s</td><td>58%</td><td>480</td></tr>
+          <tr><td>2</td><td>/pricing</td><td>14,200</td><td>10,800</td><td>3m 45s</td><td>34%</td><td>320</td></tr>
+          <tr><td>3</td><td>/features</td><td>9,800</td><td>7,600</td><td>2m 58s</td><td>41%</td><td>180</td></tr>
+          <tr><td>4</td><td>/blog/vpn-guide</td><td>7,200</td><td>6,900</td><td>5m 10s</td><td>28%</td><td>44</td></tr>
+          <tr><td>5</td><td>/download</td><td>6,400</td><td>5,800</td><td>1m 30s</td><td>22%</td><td>110</td></tr>
+          <tr><td>6</td><td>/blog/best-vpn</td><td>5,100</td><td>4,900</td><td>4m 20s</td><td>30%</td><td>38</td></tr>
+          <tr><td>7</td><td>/compare</td><td>4,200</td><td>3,900</td><td>3m 05s</td><td>37%</td><td>32</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HUBSPOT
+  ═══════════════════════════════════════════ -->
+  <div class="content" id="tab-hubspot">
+    <div class="section-heading">
+      <span class="platform-badge" style="color:#c0392b;border-color:#c0392b;background:#fde8e6;">HubSpot</span>
+      CRM & Pipeline
+    </div>
+    <p class="section-sub">All contacts & deals · Apr 1 – Apr 29, 2026</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--r:-0.4deg; border-top:4px solid #c0392b;">
+        <div class="kpi-label">New Contacts</div>
+        <div class="kpi-value" style="color:#c0392b">842</div>
+        <div class="kpi-delta delta-up">▲ 14.2%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg; border-top:4px solid var(--yellow);">
+        <div class="kpi-label">New Deals</div>
+        <div class="kpi-value">124</div>
+        <div class="kpi-delta delta-up">▲ 8.6%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.2deg; border-top:4px solid var(--teal);">
+        <div class="kpi-label">Deals Won</div>
+        <div class="kpi-value" style="color:var(--teal)">38</div>
+        <div class="kpi-delta delta-up">▲ 26.7%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.4deg;">
+        <div class="kpi-label">Deals Lost</div>
+        <div class="kpi-value" style="color:var(--red)">21</div>
+        <div class="kpi-delta delta-down">▲ 5.0%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.3deg; border-top:4px solid var(--purple);">
+        <div class="kpi-label">Pipeline Value</div>
+        <div class="kpi-value" style="color:var(--purple)">$284K</div>
+        <div class="kpi-delta delta-up">▲ 19.4%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.2deg;">
+        <div class="kpi-label">Win Rate</div>
+        <div class="kpi-value">30.6%</div>
+        <div class="kpi-delta delta-up">▲ 3.1%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.1deg;">
+        <div class="kpi-label">Avg. Deal Size</div>
+        <div class="kpi-value">$7,470</div>
+        <div class="kpi-delta delta-up">▲ 4.8%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg;">
+        <div class="kpi-label">Emails Sent</div>
+        <div class="kpi-value">3,820</div>
+        <div class="kpi-delta delta-up">▲ 6.3%</div>
+      </div>
+    </div>
+
+    <!-- Pipeline + Contacts charts -->
+    <div class="charts-row two-col" style="margin-bottom:20px;">
+      <!-- Pipeline funnel sketch -->
+      <div class="sketch-card" style="height:240px;">
+        <div class="chart-label">Deal Pipeline Funnel</div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:0 8px;margin-top:8px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:100%;height:32px;background:var(--purple-light);border:1.5px solid var(--purple);border-radius:2px;display:flex;align-items:center;padding:0 10px;font-size:14px;">
+              <span style="flex:1;">Prospecting</span><strong>124</strong>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:0 20px;">
+            <div style="width:100%;height:32px;background:var(--blue-light);border:1.5px solid var(--blue);border-radius:2px;display:flex;align-items:center;padding:0 10px;font-size:14px;">
+              <span style="flex:1;">Qualified</span><strong>88</strong>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:0 40px;">
+            <div style="width:100%;height:32px;background:var(--yellow-light);border:1.5px solid var(--yellow);border-radius:2px;display:flex;align-items:center;padding:0 10px;font-size:14px;">
+              <span style="flex:1;">Proposal Sent</span><strong>54</strong>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:0 60px;">
+            <div style="width:100%;height:32px;background:var(--teal-light);border:1.5px solid var(--teal);border-radius:2px;display:flex;align-items:center;padding:0 10px;font-size:14px;">
+              <span style="flex:1;">Negotiation</span><strong>38</strong>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:0 80px;">
+            <div style="width:100%;height:32px;background:#d0f0eb;border:2px solid var(--teal);border-radius:2px;display:flex;align-items:center;padding:0 10px;font-size:14px;font-weight:700;">
+              <span style="flex:1;">Closed Won</span><strong style="color:var(--teal)">38</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- New contacts over time -->
+      <div class="sketch-card" style="height:240px;">
+        <div class="chart-label">New Contacts over time</div>
+        <svg class="line-chart-svg" viewBox="0 0 400 160" preserveAspectRatio="none">
+          <line x1="0" y1="40" x2="400" y2="40" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#ddd" stroke-dasharray="4,3"/>
+          <polyline points="20,140 60,128 100,118 140,108 180,112 220,95 260,90 300,78 340,80 380,68"
+            fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linejoin="round"/>
+          <polyline points="20,140 60,128 100,118 140,108 180,112 220,95 260,90 300,78 340,80 380,68 380,155 20,155 Z"
+            fill="rgba(192,57,43,0.07)" stroke="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Deals Table -->
+    <div class="sketch-card" style="margin-bottom:16px;">
+      <div class="chart-label">Recent Deals</div>
+      <table class="sketch-table">
+        <thead>
+          <tr><th>Deal Name</th><th>Contact</th><th>Stage</th><th>Value</th><th>Owner</th><th>Close Date</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Acme Corp VPN License</td><td>James Liu</td>
+            <td><span class="pill pill-green">Closed Won</span></td>
+            <td>$12,400</td><td>Sarah A.</td><td>Apr 22</td><td>LinkedIn</td>
+          </tr>
+          <tr>
+            <td>TechFlow Enterprise</td><td>Maria Santos</td>
+            <td><span class="pill pill-blue">Negotiation</span></td>
+            <td>$8,800</td><td>Alex W.</td><td>May 5</td><td>Lemlist</td>
+          </tr>
+          <tr>
+            <td>SecureNet 50-seat</td><td>David Kim</td>
+            <td><span class="pill pill-blue">Proposal Sent</span></td>
+            <td>$6,200</td><td>Sarah A.</td><td>May 12</td><td>Google Ads</td>
+          </tr>
+          <tr>
+            <td>FinTech WL Bundle</td><td>Priya Mehta</td>
+            <td><span class="pill pill-purple">Qualified</span></td>
+            <td>$15,000</td><td>Alex W.</td><td>May 20</td><td>LinkedIn</td>
+          </tr>
+          <tr>
+            <td>Globex IT Dept</td><td>Tom Ryder</td>
+            <td><span class="pill pill-gray">Prospecting</span></td>
+            <td>$4,500</td><td>Sarah A.</td><td>Jun 1</td><td>Lemlist</td>
+          </tr>
+          <tr>
+            <td>DataSafe Solutions</td><td>Aisha Patel</td>
+            <td><span class="pill" style="color:var(--red);border-color:var(--red);background:var(--red-light)">Closed Lost</span></td>
+            <td>$3,200</td><td>Alex W.</td><td>Apr 18</td><td>Reddit Ads</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Email & Marketing Activity -->
+    <div class="charts-row two-col">
+      <div class="sketch-card">
+        <div class="chart-label">Email Activity (HubSpot sequences)</div>
+        <table class="sketch-table" style="font-size:13px;">
+          <thead><tr><th>Sequence</th><th>Enrolled</th><th>Opened</th><th>Replied</th></tr></thead>
+          <tbody>
+            <tr><td>MSP Intro Seq.</td><td>210</td><td>96 (45.7%)</td><td>22 (10.5%)</td></tr>
+            <tr><td>Enterprise Follow-up</td><td>180</td><td>78 (43.3%)</td><td>18 (10.0%)</td></tr>
+            <tr><td>Re-engagement</td><td>140</td><td>55 (39.3%)</td><td>11 (7.9%)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sketch-card">
+        <div class="chart-label">Contacts by Lead Source</div>
+        <div class="bar-chart" style="height:120px;">
+          <div class="bar-group"><div class="bar" style="height:70%;background:var(--blue-light)"></div><div class="bar-tick" style="font-size:11px;">LinkedIn</div></div>
+          <div class="bar-group"><div class="bar" style="height:50%;background:var(--purple-light)"></div><div class="bar-tick" style="font-size:11px;">Lemlist</div></div>
+          <div class="bar-group"><div class="bar" style="height:60%;background:var(--blue-light)"></div><div class="bar-tick" style="font-size:11px;">Google</div></div>
+          <div class="bar-group"><div class="bar" style="height:35%;background:var(--red-light)"></div><div class="bar-tick" style="font-size:11px;">Reddit</div></div>
+          <div class="bar-group"><div class="bar" style="height:25%;background:var(--teal-light)"></div><div class="bar-tick" style="font-size:11px;">Organic</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       LEMLIST
+  ═══════════════════════════════════════════ -->
+  <div class="content" id="tab-lemlist">
+    <div class="section-heading">
+      <span class="platform-badge" style="color:var(--purple);border-color:var(--purple);background:var(--purple-light)">Lemlist</span>
+      Email Outreach Campaigns
+    </div>
+    <p class="section-sub">All campaigns · Apr 1 – Apr 29, 2026</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--r:-0.4deg; border-top:4px solid var(--purple);">
+        <div class="kpi-label">Active Campaigns</div>
+        <div class="kpi-value" style="color:var(--purple)">6</div>
+        <div class="kpi-sub">2 paused · 1 completed</div>
+      </div>
+      <div class="kpi-card" style="--r:0.3deg;">
+        <div class="kpi-label">Emails Sent</div>
+        <div class="kpi-value">8,420</div>
+        <div class="kpi-delta delta-up">▲ 5.6%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.2deg; border-top:4px solid var(--teal);">
+        <div class="kpi-label">Open Rate</div>
+        <div class="kpi-value" style="color:var(--teal)">42.8%</div>
+        <div class="kpi-delta delta-up">▲ 3.2%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.4deg;">
+        <div class="kpi-label">Reply Rate</div>
+        <div class="kpi-value">8.4%</div>
+        <div class="kpi-delta delta-up">▲ 1.5%</div>
+      </div>
+      <div class="kpi-card" style="--r:-0.3deg;">
+        <div class="kpi-label">Click Rate</div>
+        <div class="kpi-value">12.6%</div>
+        <div class="kpi-delta delta-up">▲ 0.9%</div>
+      </div>
+      <div class="kpi-card" style="--r:0.2deg; border-top:4px solid var(--red);">
+        <div class="kpi-label">Bounce Rate</div>
+        <div class="kpi-value" style="color:var(--red)">1.8%</div>
+        <div class="kpi-delta delta-up">▼ 0.3% 👍</div>
+      </div>
+    </div>
+
+    <div class="charts-row two-col" style="margin-bottom:20px;">
+      <div class="sketch-card" style="height:220px;">
+        <div class="chart-label">Open Rate & Reply Rate over time</div>
+        <svg class="line-chart-svg" viewBox="0 0 400 150" preserveAspectRatio="none">
+          <line x1="0" y1="40" x2="400" y2="40" stroke="#ddd" stroke-dasharray="4,3"/>
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#ddd" stroke-dasharray="4,3"/>
+          <polyline points="20,115 60,100 100,95 140,85 180,88 220,75 260,72 300,65 340,68 380,58"
+            fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-linejoin="round"/>
+          <polyline points="20,138 60,130 100,128 140,125 180,122 220,118 260,115 300,110 340,108 380,105"
+            fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="5,2" stroke-linejoin="round"/>
+          <rect x="20" y="8" width="12" height="3" fill="var(--purple)" rx="1"/>
+          <text x="36" y="13" font-family="Caveat" font-size="11" fill="#666">Open Rate</text>
+          <rect x="100" y="8" width="12" height="3" fill="var(--teal)" rx="1"/>
+          <text x="116" y="13" font-family="Caveat" font-size="11" fill="#666">Reply Rate</text>
+        </svg>
+      </div>
+      <div class="sketch-card" style="height:220px;">
+        <div class="chart-label">Sent Emails by Campaign</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar" style="height:80%;background:var(--purple-light)"></div>
+            <div class="bar-tick" style="font-size:10px;">MSP Q2</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:60%;background:var(--purple-light)"></div>
+            <div class="bar-tick" style="font-size:10px;">IT Cold</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:45%;background:var(--blue-light)"></div>
+            <div class="bar-tick" style="font-size:10px;">Founder</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:55%;background:var(--purple-light)"></div>
+            <div class="bar-tick" style="font-size:10px;">Resell</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:35%;background:var(--blue-light)"></div>
+            <div class="bar-tick" style="font-size:10px;">CISO</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:50%;background:var(--purple-light)"></div>
+            <div class="bar-tick" style="font-size:10px;">SMB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sketch-card">
+      <div class="chart-label">Campaign Breakdown</div>
+      <table class="sketch-table">
+        <thead>
+          <tr>
+            <th>Campaign</th><th>Status</th><th>Sent</th><th>Opens</th><th>Open Rate</th><th>Clicks</th><th>Click Rate</th><th>Replies</th><th>Reply Rate</th><th>Bounces</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MSP Outreach Q2</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>2,100</td><td>924</td><td>44%</td><td>270</td><td>12.9%</td><td>185</td><td>8.8%</td><td>36</td>
+          </tr>
+          <tr>
+            <td>IT Cold Outreach</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>1,800</td><td>756</td><td>42%</td><td>225</td><td>12.5%</td><td>144</td><td>8.0%</td><td>30</td>
+          </tr>
+          <tr>
+            <td>Founder Sequence</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>1,100</td><td>462</td><td>42%</td><td>132</td><td>12.0%</td><td>88</td><td>8.0%</td><td>20</td>
+          </tr>
+          <tr>
+            <td>Reseller Promo</td>
+            <td><span class="pill pill-green">Active</span></td>
+            <td>1,400</td><td>630</td><td>45%</td><td>182</td><td>13.0%</td><td>119</td><td>8.5%</td><td>22</td>
+          </tr>
+          <tr>
+            <td>CISO Nurture</td>
+            <td><span class="pill pill-gray">Paused</span></td>
+            <td>860</td><td>344</td><td>40%</td><td>103</td><td>12.0%</td><td>68</td><td>7.9%</td><td>17</td>
+          </tr>
+          <tr>
+            <td>SMB Follow-up</td>
+            <td><span class="pill pill-gray">Paused</span></td>
+            <td>1,160</td><td>487</td><td>42%</td><td>148</td><td>12.8%</td><td>104</td><td>9.0%</td><td>27</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+  const titles = {
+    google: 'Google Ads',
+    reddit: 'Reddit Ads',
+    linkedin: 'LinkedIn Ads',
+    ga4: 'GA4 Analytics',
+    hubspot: 'HubSpot CRM',
+    lemlist: 'Lemlist'
+  };
+
+  // ── Auth guard ──────────────────────────────
+  const userRaw = localStorage.getItem('purewl_user');
+  if (!userRaw) {
+    window.location.href = 'Login.html';
+  } else {
+    const user = JSON.parse(userRaw);
+    const initials = user.avatar || (user.name || 'U').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('topbar-avatar').textContent = initials;
+    document.getElementById('topbar-name').textContent = 'Hi, ' + (user.name || 'User').split(' ')[0] + ' 👋';
+    document.getElementById('sidebar-avatar').textContent = initials;
+    document.getElementById('sidebar-name').textContent = user.name || 'User';
+    document.getElementById('sidebar-email').textContent = user.email || '';
+  }
+
+  function logout() {
+    localStorage.removeItem('purewl_user');
+    window.location.href = 'Login.html';
+  }
+
+  // ── Navigation ──────────────────────────────
+  function switchTab(id) {
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+    document.getElementById('page-title').textContent = titles[id];
+  }
+
+  function setPreset(btn, preset) {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const labels = { '7d':'Apr 23 → Apr 29, 2026', '30d':'Apr 1 → Apr 29, 2026', '90d':'Jan 30 → Apr 29, 2026', 'mtd':'Apr 1 → Apr 29, 2026' };
+    document.querySelector('.date-range-input').innerHTML = `📅 <span>${labels[preset]}</span> ✏️`;
+  }
+
+  // ── Tweaks panel ────────────────────────────
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+    if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+  });
+  window.parent.postMessage({type: '__edit_mode_available'}, '*');
+</script>
+
+<!-- TWEAKS PANEL -->
+<div id="tweaks-panel" style="display:none; position:fixed; bottom:20px; right:20px; background:#fff; border:2px solid #2d2d2d; padding:16px; width:220px; font-family:'Caveat',cursive; font-size:15px; border-radius:4px; box-shadow:4px 4px 0 #2d2d2d; z-index:999;">
+  <div style="font-weight:700; font-size:18px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+    Tweaks
+    <span onclick="document.getElementById('tweaks-panel').style.display='none'; window.parent.postMessage({type:'__edit_mode_dismissed'},'*')" style="cursor:pointer; font-size:20px; color:#999;">×</span>
+  </div>
+  <div style="margin-bottom:10px;">
+    <label style="display:block; color:#666; font-size:13px; margin-bottom:4px;">Accent color</label>
+    <div style="display:flex; gap:6px;">
+      <div onclick="setAccent('#5b3fa6')" style="width:24px;height:24px;background:#5b3fa6;border-radius:3px;border:2px solid #2d2d2d;cursor:pointer;"></div>
+      <div onclick="setAccent('#2563b8')" style="width:24px;height:24px;background:#2563b8;border-radius:3px;border:2px solid #ccc;cursor:pointer;"></div>
+      <div onclick="setAccent('#0d7a6e')" style="width:24px;height:24px;background:#0d7a6e;border-radius:3px;border:2px solid #ccc;cursor:pointer;"></div>
+    </div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <label style="display:block; color:#666; font-size:13px; margin-bottom:4px;">Sidebar style</label>
+    <select onchange="setSidebar(this.value)" style="font-family:'Caveat',cursive;font-size:14px;width:100%;border:1.5px solid #ccc;padding:3px 6px;border-radius:3px;background:#fafafa;">
+      <option value="dark">Dark (default)</option>
+      <option value="light">Light</option>
+    </select>
+  </div>
+  <div>
+    <label style="display:block; color:#666; font-size:13px; margin-bottom:4px;">Table density</label>
+    <select onchange="setDensity(this.value)" style="font-family:'Caveat',cursive;font-size:14px;width:100%;border:1.5px solid #ccc;padding:3px 6px;border-radius:3px;background:#fafafa;">
+      <option value="normal">Normal</option>
+      <option value="compact">Compact</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  function setAccent(color) {
+    document.documentElement.style.setProperty('--purple', color);
+    document.querySelectorAll('.nav-item.active').forEach(el => el.style.borderLeftColor = color);
+  }
+
+  function setSidebar(v) {
+    const sidebar = document.querySelector('.sidebar');
+    if (v === 'light') {
+      sidebar.style.background = '#f5f4f0';
+      sidebar.style.borderRight = '2.5px solid #2d2d2d';
+      document.querySelectorAll('.nav-item').forEach(el => el.style.color = '#333');
+      document.querySelectorAll('.sidebar-section-label').forEach(el => el.style.color = '#999');
+      document.querySelector('.logo-sub').style.color = '#999';
+    } else {
+      sidebar.style.background = '#1e1340';
+      document.querySelectorAll('.nav-item').forEach(el => el.style.color = '');
+      document.querySelectorAll('.sidebar-section-label').forEach(el => el.style.color = '');
+      document.querySelector('.logo-sub').style.color = '';
+    }
+  }
+
+  function setDensity(v) {
+    document.querySelectorAll('.sketch-table td, .sketch-table th').forEach(el => {
+      el.style.padding = v === 'compact' ? '4px 10px' : '';
+    });
+  }
+</script>
+
+</body>
+</html>

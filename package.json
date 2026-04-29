@@ -1,0 +1,19 @@
+{
+  "name": "real-time-marketing-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "worker"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace worker\" \"npm run dev --workspace frontend\"",
+    "build": "npm run build --workspace backend && npm run build --workspace worker && npm run build --workspace frontend",
+    "lint": "npm run lint --workspace backend && npm run lint --workspace worker && npm run lint --workspace frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.6.3"
+  }
+}
