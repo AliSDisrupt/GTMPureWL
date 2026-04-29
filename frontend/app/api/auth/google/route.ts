@@ -1,15 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const ALLOWED_DOMAINS = new Set(["purevpn.com", "purewl.com", "disrupt.com"]);
 const GOOGLE_AUTH_BASE = "https://accounts.google.com/o/oauth2/v2/auth";
+const GOOGLE_CALLBACK_PATH = "/api/auth/google/callback";
+
+function resolveGoogleRedirectUri(request: NextRequest): string {
+  const configured = String(process.env.GOOGLE_OAUTH_REDIRECT_URI ?? "").trim();
+  if (configured) {
+    if (configured.endsWith(GOOGLE_CALLBACK_PATH)) {
+      return configured;
+    }
+    return `${configured.replace(/\/+$/, "")}${GOOGLE_CALLBACK_PATH}`;
+  }
+
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  if (forwardedProto && forwardedHost) {
+    return `${forwardedProto}://${forwardedHost}${GOOGLE_CALLBACK_PATH}`;
+  }
+
+  return `${request.nextUrl.origin}${GOOGLE_CALLBACK_PATH}`;
+}
 
 export async function GET(request: NextRequest) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   if (!clientId) {
     return NextResponse.redirect(new URL("/login?error=google_not_configured", request.url));
   }
-  const redirectUri =
-    process.env.GOOGLE_OAUTH_REDIRECT_URI ?? `${request.nextUrl.origin}/api/auth/google/callback`;
+  const redirectUri = resolveGoogleRedirectUri(request);
   const state = crypto.randomUUID();
   const authUrl = new URL(GOOGLE_AUTH_BASE);
   authUrl.searchParams.set("client_id", clientId);

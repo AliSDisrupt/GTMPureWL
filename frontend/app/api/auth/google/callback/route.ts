@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { appendLoginAudit, getClientIp } from "../../../../../lib/loginAudit";
 
 const ALLOWED_DOMAINS = new Set(["purevpn.com", "purewl.com", "disrupt.com"]);
+const GOOGLE_CALLBACK_PATH = "/api/auth/google/callback";
 
 type GoogleTokenResponse = {
   access_token?: string;
@@ -12,6 +13,24 @@ type GoogleUserInfoResponse = {
   name?: string;
   picture?: string;
 };
+
+function resolveGoogleRedirectUri(request: NextRequest): string {
+  const configured = String(process.env.GOOGLE_OAUTH_REDIRECT_URI ?? "").trim();
+  if (configured) {
+    if (configured.endsWith(GOOGLE_CALLBACK_PATH)) {
+      return configured;
+    }
+    return `${configured.replace(/\/+$/, "")}${GOOGLE_CALLBACK_PATH}`;
+  }
+
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  if (forwardedProto && forwardedHost) {
+    return `${forwardedProto}://${forwardedHost}${GOOGLE_CALLBACK_PATH}`;
+  }
+
+  return `${request.nextUrl.origin}${GOOGLE_CALLBACK_PATH}`;
+}
 
 export async function GET(request: NextRequest) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -27,8 +46,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/login?error=google_state", request.url));
   }
 
-  const redirectUri =
-    process.env.GOOGLE_OAUTH_REDIRECT_URI ?? `${request.nextUrl.origin}/api/auth/google/callback`;
+  const redirectUri = resolveGoogleRedirectUri(request);
 
   const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
